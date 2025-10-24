@@ -227,17 +227,64 @@ mensavoter/
 - **QR Callback**: `/waitqr/intiate.php`
     - Handles CPEE workflow callbacks
     - Stores callback URLs for process continuation
+    
+- **Navigation Callback**: `/waitqr/callback.php`
+    - Processes navigation parameters from QR codes
+    - URL structure: `callback.php?navigate={target}`
+    - Supported targets: `map`, `garching`, `bolzmann`, `maschinenbau`, `end`
+    - Integrates with CPEE workflow state management
 
 ## QR Code System
 
-The application uses QR codes for seamless navigation between different views:
+The application uses QR codes for seamless navigation between different views and CPEE workflow integration:
 
+### QR Navigation Structure
+Each QR code is designed for workflow-driven interaction and includes dynamic navigation:
+
+**Navigation QR Codes with Parameters:**
+- Main map navigation: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=map`
+- Mensa-specific navigation:
+  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=garching`
+  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=bolzmann`
+  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=maschinenbau`
+- Session control: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=end`
+
+**Voting QR Codes with Mensa Parameter:**
+- Direct voting links dynamically generated via api.qrserver.com API:
+  - Vote Garching: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/votes/vote.php?mensa=mensa_garching`
+  - Vote Boltzmann: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/votes/vote.php?mensa=mensa_bolzmann`
+  - Vote Maschinenbau: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/votes/vote.php?mensa=mensa_maschinenbau`
+
+### Static QR Code Files
 - **Map QR Code** (`qrcodes/map.png`): Links to main map page
 - **Cafeteria QR Codes**: Individual codes for each cafeteria
     - `qrcodes/mensagarching.png`
     - `qrcodes/mensabolzmann.png`
     - `qrcodes/maschinenbau.png`
 - **Voting QR Codes**: Enable direct voting functionality
+    - `qrcodes/mensagarchingvote.png`
+    - `qrcodes/mensabolzmannvote.png`
+    - `qrcodes/mensamaschinenbauvote.png`
+
+### Navigation Mapping
+**QR Parameter → Target Page:**
+- `navigate=map` → `display/map.html`
+- `navigate=garching` → `display/mensagarching.html`
+- `navigate=bolzmann` → `display/mensabolzmann.html`
+- `navigate=maschinenbau` → `display/mensamaschinenbau.html`
+- `navigate=end` → End session/return to start
+
+### QR Code Generation
+- **Static QR Codes**: Pre-generated images stored in `qrcodes/` directory
+- **Dynamic QR Codes**: Generated via api.qrserver.com API for voting functionality
+- **URL Pattern**: `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={encoded_url}`
+- **Voting URLs**: Dynamically created with mensa parameter for vote.php endpoint
+
+### Footer Navigation QR Codes
+Each page includes footer QR codes for cross-navigation:
+- **From any mensa page**: Access other mensas and map
+- **From map page**: Direct access to individual mensa pages
+- **Workflow integration**: All QR codes can trigger CPEE subprocess transitions
 
 ## Styling and Design
 
@@ -334,7 +381,9 @@ const ZOOM=15.8, PITCH=58.8, BEARING=-61; // 3D viewing angle
 ### CPEE Workflow Integration
 - **Purpose**: Cloud Process Execution Engine integration for workflow automation
 - **Files**: XML workflow definitions in `CPEE Files/`
-- **Callback Mechanism**: `waitqr/intiate.php` stores callback URLs from CPEE headers
+- **Callback Mechanism**: 
+  - `waitqr/intiate.php` stores callback URLs from CPEE headers
+  - `waitqr/callback.php` processes navigation parameters and workflow continuation
 - **QR Trigger**: Scanning QR codes can trigger CPEE subprocess continuation
 
 ### Data Processing Pipeline
