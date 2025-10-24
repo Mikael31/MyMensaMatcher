@@ -10,6 +10,38 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 - Navigate between different locations using QR codes
 - View an interactive map of cafeteria locations
 
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Project Structure](#project-structure)
+- [Features](#features)
+    - [1. Interactive Map](#1-interactive-map)
+    - [2. Menu Display Pages](#2-menu-display-pages)
+    - [3. Voting System](#3-voting-system)
+    - [4. Menu Data Management](#4-menu-data-management)
+    - [5. QR Code Navigation](#5-qr-code-navigation)
+- [Setup Instructions](#setup-instructions)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Quick Start](#quick-start)
+- [API Endpoints](#api-endpoints)
+    - [Voting API](#voting-api)
+    - [Menu Data API](#menu-data-api)
+    - [CPEE Integration](#cpee-integration)
+- [QR Code System](#qr-code-system)
+- [Styling and Design](#styling-and-design)
+- [Data Sources](#data-sources)
+    - [TUM Eat API](#tum-eat-api)
+    - [Local Data Storage](#local-data-storage)
+- [Supported Cafeterias](#-supported-cafeterias)
+- [Development Notes](#development-notes)
+    - [File Structure Details](#file-structure-details)
+    - [Error Handling](#error-handling)
+    - [Performance Considerations](#performance-considerations)
+- [License](#license)
+- [Contributing](#contributing)
+
 ## Project Structure
 
 ```
