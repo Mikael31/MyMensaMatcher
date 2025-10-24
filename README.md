@@ -15,6 +15,7 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
+- [CPEE Process](#cpee-process)
 - [Features](#features)
     - [1. Interactive Map](#1-interactive-map)
     - [2. Menu Display Pages](#2-menu-display-pages)
@@ -103,6 +104,9 @@ mensavoter/
 │       ├── mensabolzmann.xml    # Subprocess: Boltzmann flow
 │       └── maschinenbau.xml     # Subprocess: Maschinenbau flow
 ```
+## CPEE process
+
+![img.png](img.png)
 
 ## Features
 
@@ -231,7 +235,7 @@ mensavoter/
 - **Navigation Callback**: `/waitqr/callback.php`
     - Processes navigation parameters from QR codes
     - URL structure: `callback.php?navigate={target}`
-    - Supported targets: `map`, `garching`, `bolzmann`, `maschinenbau`, `end`
+    - Supported targets: `map`, `garching`, `bolzmann`, `maschinenbau`
     - Integrates with CPEE workflow state management
 
 ## QR Code System
@@ -247,7 +251,6 @@ Each QR code is designed for workflow-driven interaction and includes dynamic na
   - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=garching`
   - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=bolzmann`
   - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=maschinenbau`
-- Session control: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=end`
 
 **Voting QR Codes with Mensa Parameter:**
 - Direct voting links dynamically generated via api.qrserver.com API:
@@ -272,7 +275,6 @@ Each QR code is designed for workflow-driven interaction and includes dynamic na
 - `navigate=garching` → `display/mensagarching.html`
 - `navigate=bolzmann` → `display/mensabolzmann.html`
 - `navigate=maschinenbau` → `display/mensamaschinenbau.html`
-- `navigate=end` → End session/return to start
 
 ### QR Code Generation
 - **Static QR Codes**: Pre-generated images stored in `qrcodes/` directory
