@@ -30,6 +30,7 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
     - [Menu Data API](#menu-data-api)
     - [CPEE Integration](#cpee-integration)
 - [QR Code System](#qr-code-system)
+- [MapTiler API Integration](#maptiler-api-integration)
 - [Styling and Design](#styling-and-design)
 - [Data Sources](#data-sources)
     - [TUM Eat API](#tum-eat-api)
@@ -38,6 +39,7 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 - [Extendability](#extendability)
 - [Development Notes](#development-notes)
     - [File Structure Details](#file-structure-details)
+- [Technical Implementation Notes](#technical-implementation-notes)
 
 
 ## Project Structure
@@ -109,6 +111,12 @@ mensavoter/
 - Interactive map showing TUM cafeteria locations
 - Uses MapTiler SDK for mapping functionality
 - Responsive design with TUM branding
+- **MapTiler API Configuration**:
+  - API Key location: Line 122 in `display/map.html`
+  - Map style: `streets` with terrain and sky layers
+  - Center coordinates: `[11.668879,48.265727]` (TUM Garching)
+  - Zoom level: 15.8, Pitch: 58.8°, Bearing: -61°
+  - Popup anchors configured for QR code displays
 
 ### 2. Menu Display Pages
 - **Files**: `display/mensa*.html`
@@ -158,9 +166,14 @@ mensavoter/
     - Ensure PHP is enabled and configured
     - Make sure the `votes/data/` and `jsonpasser/data/` directories are writable
 
-3. **MapTiler Configuration** (Optional):
+3. **MapTiler Configuration** (Required for Map Functionality):
     - Get a free API key from [MapTiler](https://maptiler.com)
-    - Replace `KEY` in `display/map.html` line 142 with your API key
+    - Replace `KEY` in `display/map.html` line 122 with your API key:
+      ```javascript
+      const KEY='your-maptiler-api-key-here';  // Line 122
+      ```
+    - Current demo key: `8na9eBlqJgIviIZxv3kB` (may have usage limits)
+    - MapTiler SDK version: 3.0.1 (loaded via CDN)
 
 4. **Directory Permissions**:
    ```bash
@@ -276,5 +289,58 @@ To add another cafeteria:
 - **PHP Scripts**: PHP 7.0+ compatible, error handling included
 - **JSON Data**: Pretty-printed with Unicode support
 - **CSS**: Modular structure with CSS custom properties
+
+## MapTiler API Integration
+
+### Configuration Details
+- **API Key Location**: `display/map.html` line 122
+- **Current Key**: `8na9eBlqJgIviIZxv3kB` (demo key with potential rate limits)
+- **SDK Version**: 3.0.1 (CDN: `https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/`)
+
+### Map Configuration
+```javascript
+const KEY='your-api-key-here';  // Replace this line
+const STYLE_URL = `https://api.maptiler.com/maps/streets/style.json?key=${KEY}`;
+const CENTER=[11.668879,48.265727]; // TUM Garching coordinates
+const ZOOM=15.8, PITCH=58.8, BEARING=-61; // 3D viewing angle
+```
+
+### Popup Coordinates
+- **StuCafé Maschinenbau**: `[11.667724,48.265774]`
+- **Current Location**: `[11.6670,48.2627]`
+- **StuCafé Garching**: `[11.67174,48.2681]`
+- **Mensa Garching**: `[11.67232,48.2684]`
+
+### Features Used
+- Terrain elevation with `terrain-rgb` tiles
+- Sky atmosphere rendering
+- Symbol layer visibility disabled for cleaner look
+- Custom popup anchoring (bottom, left, right)
+
+## Technical Implementation Notes
+
+### Backend Architecture
+- **PHP Version**: 7.0+ required for `??` null coalescing operator
+- **Data Flow**: TUM Eat API → PHP processors → JSON cache → Frontend
+- **Error Handling**: HTTP status codes (502 for upstream failures, 500 for file I/O)
+- **Encoding**: UTF-8 throughout, `JSON_UNESCAPED_UNICODE` flag used
+
+### Frontend Technology Stack
+- **Vanilla JavaScript**: ES6+ features (async/await, fetch API)
+- **CSS Grid**: Used for responsive menu layout (`grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))`)
+- **CSS Custom Properties**: TUM branding colors and measurements
+- **Backdrop Filters**: Glass morphism effects on menu cards
+
+### CPEE Workflow Integration
+- **Purpose**: Cloud Process Execution Engine integration for workflow automation
+- **Files**: XML workflow definitions in `CPEE Files/`
+- **Callback Mechanism**: `waitqr/intiate.php` stores callback URLs from CPEE headers
+- **QR Trigger**: Scanning QR codes can trigger CPEE subprocess continuation
+
+### Data Processing Pipeline
+1. **Menu Fetching**: ISO week-based API calls to TUM Eat API
+2. **Filtering**: Extract only current day's menu from weekly data
+3. **Caching**: Store processed JSON locally for performance
+4. **Frontend**: Async fetch with error handling and loading states
 
 
