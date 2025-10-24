@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mensa Maschinenbau Menü</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+
+<!-- choose a page-specific background class -->
+<body class="bg-maschinenbau">
+<div class="container">
+    <div class="header">
+        <h1 id="title">Mensa Maschinenbau Menü</h1>
+        <p> Boltzmannstr. 15, 85748 Garching </p>
+    </div>
+
+    <div id="menu" class="menu-grid"></div>
+</div>
+
+<div class="bottom-bar">
+    <div class="qr-menu">
+        <div class="qr-item">
+            <img src="../qrcodes/mensagarching.png" alt="Mensa Garching QR" />
+            <span>Mensa Garching</span>
+        </div>
+        <div class="qr-item">
+            <img src="../qrcodes/map.png" alt="Map page" />
+            <span>Homepage</span>
+        </div>
+        <div class="qr-item">
+            <img src="../qrcodes/mensabolzmann.png" alt="Mensa Maschinenbau QR" />
+            <span>Stucafe Garching</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    (async () => {
+        const $title = document.getElementById('title');
+        const $menu  = document.getElementById('menu');
+
+        const url = '../jsonpasser/data/mensa_maschinenbau.json';
+
+        try {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+
+            const json = await res.json();
+            const day = json;
+
+            if (!day || !Array.isArray(day.dishes)) {
+                throw new Error('JSON enthält kein "dishes"-Array');
+            }
+
+            const d = new Date(day.date ?? Date.now());
+            $title.textContent = `Maschinenbau Speißeplan für ${d.toLocaleDateString('de-DE')}`;
+
+            if (day.dishes.length > 9) {
+                $menu.classList.add('four-cols');
+            }
+
+            day.dishes.forEach(dish => {
+                const card = document.createElement('section');
+                card.className = 'dish';
+
+                let html = `<h3>${dish.name}</h3>`;
+
+                if (dish.labels?.length) {
+                    const labelIcons = dish.labels.map(label => `<span class="label-icon label-${label}"></span>`).join(' ');
+                    html += `<p class="labels">${labelIcons}</p>`;
+                }
+
+                if (dish?.prices) {
+                    const renderPrice = (label, priceObj) => {
+                        if (!priceObj) return '';
+                        if (priceObj.base_price === 0) {
+                            return `<p class="price">${label}: ${priceObj.price_per_unit.toFixed(2)} € / ${priceObj.unit}</p>`;
+                        } else {
+                            return `<p class="price">${label}: ${priceObj.base_price.toFixed(2)} € + ${priceObj.price_per_unit.toFixed(2)} € /  ${priceObj.unit}</p>`;
+                        }
+                    };
+                    html += renderPrice('Studierende', dish.prices.students);
+                    html += renderPrice('Mitarbeiter', dish.prices.staff);
+                    html += renderPrice('Gäste', dish.prices.guests);
+                }
+
+                card.innerHTML = html;
+                $menu.appendChild(card);
+            });
+            // Bidirectional smooth scrolling
+            let stepSize = 1; // Pixels per scroll step
+            let speed = 25; // Delay in ms
+            let direction = 1;
+
+            setInterval(() => {
+                $menu.scrollTop += stepSize * direction;
+                // When reaching bottom, reverse direction
+                if ($menu.scrollTop + $menu.clientHeight >= $menu.scrollHeight ) { // 150px for bottom bar
+                    direction = -1;
+                }
+                // When reaching top, reverse direction
+                if ($menu.scrollTop <= 0) {
+                    direction = 1;
+                }
+            }, speed);
+
+        } catch (err) {
+            $title.textContent = 'Fehler';
+            $menu.innerHTML = `<p class="error">Konnte Daten nicht laden: ${err.message}</p>`;
+        }
+    })();
+</script>
+
+</body>
+</html>
