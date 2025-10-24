@@ -14,14 +14,53 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 
 ```
 mensavoter/
-├── 📁 display/           # HTML pages for menu display and map
-├── 📁 votes/             # Voting system backend
-├── 📁 jsonpasser/        # Menu data fetching and processing
-├── 📁 qrcodes/           # QR code images for navigation
-├── 📁 waitqr/            # QR code callback handling (CPEE integration)
-├── 📁 styles/            # CSS styling
-├── 📁 pictures/          # Background images and assets
-└── 📄 README.md          # This documentation
+├── 📁 data/                      # JSON data used by the app
+│   ├── mensa_bolzmann.json
+│   ├── mensa_garching.json
+│   └── mensa_maschinenbau.json
+│
+├── 📁 display/                   # HTML pages for displaying menus and map
+│   ├── map.html
+│   ├── mensabolzmann.html
+│   ├── mensagarching.html
+│   ├── mensamaschinenbau.html
+│   └── test.html
+│
+├── 📁 jsonpasser/                # Handles menu data fetching and processing (PHP/Python logic)
+│   ├── index.php
+│   ├── mensa_bolzmann.php
+│   ├── mensa_garching.php
+│   ├── mensa_maschinenbau.py
+│   └── (supporting scripts and logic)
+│
+├── 📁 pictures/                  # Background and asset images
+│   ├── mensabolzmann.jpg
+│   ├── mensagarching.webp
+│   ├── mensamaschinenbau.jpg
+│   └── TUM-Bild.jpg
+│
+├── 📁 qrcodes/                   # Generated QR codes for each mensa and voting page
+│   ├── index.png
+│   ├── map.png
+│   ├── maschinenbau.png
+│   ├── mensabolzmann.png
+│   ├── mensabolzmannvote.png
+│   ├── mensagarching.png
+│   ├── mensagarchingvote.png
+│   └── mensamaschinenbauvote.png
+│
+├── 📁 styles/                    # Styling and layout
+│   └── style.css
+│
+├── 📁 votes/                     # Voting backend endpoints
+│   ├── data/
+│   ├── reset_votes.php
+│   └── vote.php
+│
+├── 📁 waitqr/                    # Handles QR scan callbacks and process triggers
+│   ├── callback.php
+│   └── intiate.php
+
 ```
 
 ## Features
