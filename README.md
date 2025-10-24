@@ -94,6 +94,15 @@ mensavoter/
 │   └── intiate.php
 
 ```
+```
+├── 📁 CPEE Files/               # CPEE workflow definitions
+│   ├── mensa.xml                # Main/parent workflow
+│   └── 📁 subprocesses/
+│       ├── map.xml              # Subprocess: open map view
+│       ├── mensagarching.xml    # Subprocess: Garching flow
+│       ├── mensabolzmann.xml    # Subprocess: Boltzmann flow
+│       └── maschinenbau.xml     # Subprocess: Maschinenbau flow
+```
 
 ## Features
 
