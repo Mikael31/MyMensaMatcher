@@ -34,13 +34,11 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 - [Data Sources](#data-sources)
     - [TUM Eat API](#tum-eat-api)
     - [Local Data Storage](#local-data-storage)
-- [Supported Cafeterias](#-supported-cafeterias)
+- [Supported Cafeterias](#supported-cafeterias)
+- [Extendability](#extendability)
 - [Development Notes](#development-notes)
     - [File Structure Details](#file-structure-details)
-    - [Error Handling](#error-handling)
-    - [Performance Considerations](#performance-considerations)
-- [License](#license)
-- [Contributing](#contributing)
+
 
 ## Project Structure
 
@@ -179,9 +177,10 @@ mensavoter/
 
 2. **View individual cafeteria menus**:
    ```
-   http://your-domain/mensavoter/display/mensagarching.html
-   http://your-domain/mensavoter/display/mensabolzmann.html
-   http://your-domain/mensavoter/display/mensamaschinenbau.html
+   https://lehre.bpm.in.tum.de/~ge49fag/mensa/display/map.html
+   https://lehre.bpm.in.tum.de/~ge49fag/mensa/display/mensagarching.html
+   https://lehre.bpm.in.tum.de/~ge49fag/mensa/display/mensabolzmann.html
+   https://lehre.bpm.in.tum.de/~ge49fag/mensa/display/mensamaschinenbau.html
    ```
 
 3. **Test voting functionality**:
@@ -248,7 +247,7 @@ The application uses QR codes for seamless navigation between different views:
 - **Menu Cache**: `jsonpasser/data/*.json`
 - **Format**: JSON with UTF-8 encoding
 
-## 🔍 Supported Cafeterias
+## Supported Cafeterias
 
 1. **Mensa Garching**
     - Location: Boltzmannstr. 19, 85748 Garching
@@ -262,6 +261,14 @@ The application uses QR codes for seamless navigation between different views:
     - Location: TUM Campus
     - API Endpoint: `mensa-maschinenbau`
 
+## Extendability
+
+To add another cafeteria:
+1.	Create a new HTML page in display/ (e.g., mensacampus.html).
+2.	Add a new data script in jsonpasser/ (e.g., mensa_campus.php).
+3.	Extend vote.php and add a new QR code in qrcodes/.
+4.	Create a new subprocess in CPEE Files/subprocesses/ (e.g., campus.xml).
+
 ## Development Notes
 
 ### File Structure Details
@@ -269,29 +276,5 @@ The application uses QR codes for seamless navigation between different views:
 - **PHP Scripts**: PHP 7.0+ compatible, error handling included
 - **JSON Data**: Pretty-printed with Unicode support
 - **CSS**: Modular structure with CSS custom properties
-
-### Error Handling
-- Network failures gracefully handled with fallback messages
-- Invalid requests return appropriate HTTP status codes
-- File operation errors logged and reported
-
-### Performance Considerations
-- Menu data cached locally to reduce API calls
-- Optimized images and assets
-- Efficient JSON processing
-- Minimal external dependencies
-
-## License
-
-This project is part of the TUM ecosystem and follows university guidelines for student projects.
-
-## Contributing
-
-For improvements or bug fixes:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 
