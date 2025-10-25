@@ -135,6 +135,7 @@ mensavoter/
 - Vote counting for three cafeterias
 - JSON-based data persistence
 - Vote reset functionality
+  - With operation for resetting on a daily basis
 
 ### 4. Menu Data Management
 - **Directory**: `jsonpasser/`
