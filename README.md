@@ -40,7 +40,6 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
 - [Extendability](#extendability)
 - [Development Notes](#development-notes)
     - [File Structure Details](#file-structure-details)
-- [Technical Implementation Notes](#technical-implementation-notes)
 
 
 ## Project Structure
@@ -200,10 +199,6 @@ mensavoter/
    https://lehre.bpm.in.tum.de/~ge49fag/mensa/display/mensamaschinenbau.html
    ```
 
-3. **Test voting functionality**:
-   ```
-   http://your-domain/mensavoter/votes/vote.php?mensa=mensa_garching
-   ```
 
 ## API Endpoints
 
@@ -246,11 +241,16 @@ The application uses QR codes for seamless navigation between different views an
 Each QR code is designed for workflow-driven interaction and includes dynamic navigation:
 
 **Navigation QR Codes with Parameters:**
-- Main map navigation: `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=map`
+- Main map navigation:
+```
+    https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=map`
+```
 - Mensa-specific navigation:
-  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=garching`
-  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=bolzmann`
-  - `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=maschinenbau`
+```
+    `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=garching`
+    `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=bolzmann`
+    `https://lehre.bpm.in.tum.de/~ge49fag/mensa/waitqr/callback.php?navigate=maschinenbau`
+```
 
 **Voting QR Codes with Mensa Parameter:**
 - Direct voting links dynamically generated via api.qrserver.com API:
@@ -278,9 +278,6 @@ Each QR code is designed for workflow-driven interaction and includes dynamic na
 
 ### QR Code Generation
 - **Static QR Codes**: Pre-generated images stored in `qrcodes/` directory
-- **Dynamic QR Codes**: Generated via api.qrserver.com API for voting functionality
-- **URL Pattern**: `https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={encoded_url}`
-- **Voting URLs**: Dynamically created with mensa parameter for vote.php endpoint
 
 ### Footer Navigation QR Codes
 Each page includes footer QR codes for cross-navigation:
@@ -366,32 +363,6 @@ const ZOOM=15.8, PITCH=58.8, BEARING=-61; // 3D viewing angle
 - Symbol layer visibility disabled for cleaner look
 - Custom popup anchoring (bottom, left, right)
 
-## Technical Implementation Notes
 
-### Backend Architecture
-- **PHP Version**: 7.0+ required for `??` null coalescing operator
-- **Data Flow**: TUM Eat API → PHP processors → JSON cache → Frontend
-- **Error Handling**: HTTP status codes (502 for upstream failures, 500 for file I/O)
-- **Encoding**: UTF-8 throughout, `JSON_UNESCAPED_UNICODE` flag used
-
-### Frontend Technology Stack
-- **Vanilla JavaScript**: ES6+ features (async/await, fetch API)
-- **CSS Grid**: Used for responsive menu layout (`grid-template-columns: repeat(auto-fit, minmax(360px, 1fr))`)
-- **CSS Custom Properties**: TUM branding colors and measurements
-- **Backdrop Filters**: Glass morphism effects on menu cards
-
-### CPEE Workflow Integration
-- **Purpose**: Cloud Process Execution Engine integration for workflow automation
-- **Files**: XML workflow definitions in `CPEE Files/`
-- **Callback Mechanism**: 
-  - `waitqr/intiate.php` stores callback URLs from CPEE headers
-  - `waitqr/callback.php` processes navigation parameters and workflow continuation
-- **QR Trigger**: Scanning QR codes can trigger CPEE subprocess continuation
-
-### Data Processing Pipeline
-1. **Menu Fetching**: ISO week-based API calls to TUM Eat API
-2. **Filtering**: Extract only current day's menu from weekly data
-3. **Caching**: Store processed JSON locally for performance
-4. **Frontend**: Async fetch with error handling and loading states
 
 
