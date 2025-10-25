@@ -23,7 +23,6 @@ Mensavoter is a comprehensive web application that allows TUM students and staff
     - [4. Menu Data Management](#4-menu-data-management)
     - [5. QR Code Navigation](#5-qr-code-navigation)
 - [Setup Instructions](#setup-instructions)
-    - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Quick Start](#quick-start)
 - [API Endpoints](#api-endpoints)
@@ -151,10 +150,6 @@ mensavoter/
 
 ## Setup Instructions
 
-### Prerequisites
-- Web server with PHP support (PHP 7.0+)
-- Internet connection for menu data fetching
-- Optional: MapTiler API key for enhanced mapping
 
 ### Installation
 
